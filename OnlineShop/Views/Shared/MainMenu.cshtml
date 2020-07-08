@@ -1,0 +1,72 @@
+﻿@model List<Model.EF.Menu>
+@{
+    var session = (UserLogin)Session[OnlineShop.Common.CommonConstants.USER_SESSION];
+}
+
+<div class="header_bg">
+    <div class="wrap">
+        <div class="header">
+            <div class="logo">
+                <a href="index.html"><img src="/assets/clientV2/images/logo.png" alt="" /> </a>
+            </div>        
+            @{
+                Html.RenderAction("HeaderCart", "Home");
+            }
+            <div class="h_search">
+                <form method="GET" action="/tim-kiem">
+                    <input type="text" id="txtKeyword" name="keyword" placeholder="Gõ từ khoá" value="@ViewBag.Keyword">
+                    <input type="submit" value="">
+                </form>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+<div class="header_btm">
+    <div class="wrap">
+        <div class="header_sub">
+            @if (session == null)
+            {
+                <div class="h_menu">
+
+                    <ul>
+                        @foreach (var item in Model)
+                        {
+                            <li><a href="@item.Link" target="@item.Target">@item.Text</a></li>
+                        }
+                    </ul>
+                </div>
+                <div class="top-nav">
+                    <nav class="nav">
+                        <a href="#" id="w3-menu-trigger"> </a>
+                        <ul class="nav-list" style="">
+                            @foreach (var item in Model)
+                            {
+                                <li><a href="@item.Link" target="@item.Target">@item.Text</a></li>
+                            }
+                        </ul>
+
+                    </nav>
+                    <div class="search_box">
+                        <form>
+                            <input type="text" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}"><input type="submit" value="">
+                        </form>
+                    </div>
+                    <div class="clear"> </div>
+                    <script src="/assets/clientV2/js/responsive.menu.js"></script>
+                </div>
+                <div class="clear"></div>
+            }
+            else
+            {
+                @*<ul>
+                    <li>Xin chào:@session.UserName</li>
+                    <li>@Html.ActionLink("Thoát", "Logout", "User")</li>
+                </ul>*@
+            }
+
+
+        </div>
+    </div>
+</div>
+<script src="~/assets/client/js/controller/baseController.js"></script>

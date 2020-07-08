@@ -1,0 +1,36 @@
+﻿@model Model.EF.Slide
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+@section jsFooter{
+    <script src="/assets/admin/js/controller/slideController.js"></script>
+}
+<h2>Create</h2>
+
+@using (Html.BeginForm("Create", "Slide", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <label for="Description">Description</label>
+        <input type="text" class="form-control" name="Description" placeholder="Description" value="@Model.Description">
+    </div>
+    <div class="form-check">
+        <input type="checkbox" value="true" checked="checked" class="form-check-input" name="Status">
+        <label class="form-check-label" for="Status">Status</label>
+    </div>
+    <div>
+        <img id="user_img"
+             height="100"
+             width="90"
+             style="border:solid" />
+    </div>
+
+    <div class="form-group">
+        <label for="Image">Image</label>
+        <input type="file" class="form-control" name="file" id="btn_file">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+}
+

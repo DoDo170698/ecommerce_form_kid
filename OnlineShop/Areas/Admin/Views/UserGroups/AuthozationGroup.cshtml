@@ -1,0 +1,106 @@
+﻿@model IEnumerable<Model.EF.Credential>
+@using Model.EF;
+@{
+    ViewBag.Title = "AuthozationGroup";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+@{ 
+    List<Role> roles = (List<Role>)TempData["listRoles"];
+}
+<h2>Phân quyền cho nhóm Group</h2>
+
+
+<div style="margin-top:1.5em;" class="tab-pane" id="notifyRole">
+    <span>
+        Notifications
+        You can add or remove role of group
+    </span>
+    <input hidden value="@ViewBag.GroupId" id="groupId" />
+    <div id="" style="margin-top: 14px;">
+        <fieldset>
+            <div class="row">
+                <div class="col-md-5">
+                    <select size="4" multiple="multiple" name="lstAllRoles" id="lstAllRoles" class="form-control" style="height:150px;">
+                        @foreach (var item in roles)
+                        {
+                            <option value="@item.ID">@item.ID</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2 text-center" style="padding-top: 50px; text-align: center;">
+                    <input type="button" name="btnAddRole" value="Add >>" id="btnAddRole" class="btn btn-primary">
+                    <br>
+                    <br>
+                    <input type="button" name="btnRemoveRole" value="<< Remove" id="btnRemoveRole" class="btn btn-primary">
+                </div>
+                <div class="col-md-5">
+                    <select size="4" multiple="multiple" name="lstRolesGroup" id="lstRolesGroup" class="form-control" style="height:150px;">
+                        @foreach (var item in Model)
+                        {
+                            <option value="@item.RoleID">@item.RoleID</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <div id="" style="padding:15px 15px 15px 0px;">
+
+    </div>
+</div>
+<script src="/assets/admin/bower_components/jquery/dist/jquery.min.js"></script>
+<script>
+    $("#btnAddRole").off("click").on("click", function () {
+        var lstRole = $("#lstAllRoles").val();// diffrient $("#lstAllRoles option:selected").val() one item last; $("#lstAllRoles option:selected").remove() list
+        var groupId = $("#groupId").val();
+        if (lstRole == null) {
+            alert("select value");
+            return false;
+        }
+        console.log(groupId);
+        console.log(lstRole);
+        $.ajax({
+            type: "POST",
+            url: "/Admin/UserGroups/AddRole",
+            data: {
+                userGroup: groupId,
+                RoleId: lstRole
+            },
+            success: function (req) {
+                if (req.status) {
+                    $("#lstAllRoles option:selected").remove();
+                    console.log(req.lst);
+                    for (let item of req.lst) {
+                        $("#lstRolesGroup").append('<option value=' + item + '>' + item + '</option>')
+                    }
+                }
+            }
+        });
+    });
+    $("#btnRemoveRole").off("click").on("click", function () {
+        var lstRole = $("#lstRolesGroup").val();// diffrient $("#lstRolesGroup option:selected").val() one item last; $("#lstRolesGroup option:selected").remove() list
+        var groupId = $("#groupId").val();
+        if (lstRole == null) {
+            alert("select value");
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/Admin/UserGroups/RemoveRole",
+            data: {
+                userGroup: groupId,
+                RoleId: lstRole
+            },
+            success: function (req) {
+                if (req.status) {
+                    $("#lstRolesGroup option:selected").remove();
+                    console.log(req.lst);
+                    for (let item of req.lst) {
+                        $("#lstAllRoles").append('<option value=' + item + '>' + item + '</option>')
+                    }
+                }
+            }
+        });
+    })
+</script>
+

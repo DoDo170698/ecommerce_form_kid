@@ -1,0 +1,49 @@
+﻿@model PagedList.IPagedList<Model.ViewModel.ShiperOrderViewDetail>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+@section jsFooter{
+    <script src="/assets/admin/js/controller/orderShipController.js"></script>
+}
+<h2>Shipper</h2>
+@if (Model.Count > 0)
+{
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>ShipName</th>
+                    <th>ShipMobile</th>
+                    <th>ShipAddress</th>
+                    <th>ShipEmail</th>
+                    <th>ShipperName</th>
+                    <th>ShipperPhone</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ShipName</td>
+                        <td>@item.ShipPhone</td>
+                        <td>@item.ShipAddress</td>
+                        <td>@item.ShipEmail</td>
+                        <td>@item.ShipperName</td>
+                        <td>@item.ShipperPhone</td>
+                        <td><a href="javascript:void(0)" class="btn-status-order" data-id="@item.OrderID">@Html.Raw(item.Status == true ? "<strong> Giao hàng thành công <i class='fa fa-check-circle' aria-hidden='true'></i></strong>" : "<strong style='color: red;'> Chưa giao hàng </strong>")</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    </div>
+}
+else
+{
+    <h2>không có bản ghi nào</h2>
+}
+
+

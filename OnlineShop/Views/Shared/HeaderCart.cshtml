@@ -1,0 +1,28 @@
+﻿@using Model.Dao;
+@using OnlineShop.Common;
+@using OnlineShop.Models;
+@model List<OnlineShop.Models.CartItem>
+@{
+    var cart = Session[CommonConstants.CartSession];
+    var list = new List<CartItem>();
+    if (cart != null)
+    {
+        list = (List<CartItem>)cart;
+    }
+    var total = 0;
+    foreach (var item in list)
+    {
+        total += item.Quantity * (int)item.Product.Price.Value;
+    }
+}
+<div class="h_icon cart">
+    <ul class="icon1 sub-icon1">
+        <li>
+            <a class="active-icon c1" href="/cart"><i id="count_cart">$@total</i></a>
+            <ul class="sub-icon1 list">
+                <li><h3>comming soon</h3><a href=""></a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+

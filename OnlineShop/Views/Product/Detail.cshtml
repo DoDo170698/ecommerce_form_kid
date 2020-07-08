@@ -1,0 +1,214 @@
+﻿@model Model.EF.Product
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var category = (Model.EF.ProductCategory)ViewBag.Category;
+    var relatedProducts = (List<Model.EF.Product>)ViewBag.RelatedProducts;
+    var lstImage = (List<string>)ViewBag.listMoreImage;
+    List<string> jsonImage = new List<string>();
+}
+@section js{
+    <style>
+        .btn-add {
+            font-family: 'Source Sans Pro', sans-serif;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            display: inline-block;
+            font-size: 1em;
+            padding: 10px 34px;
+            background: #555555;
+            color: #fff;
+            text-transform: capitalize;
+            -webkit-transition: all 0.3s ease-in-out;
+            -moz-transition: all 0.3s ease-in-out;
+            -o-transition: all 0.3s ease-in-out;
+            transition: all 0.3s ease-in-out;
+        }
+
+            .btn-add:hover {
+                background: #3CC395;
+            }
+    </style>
+    <!-- start details -->
+    <link rel="stylesheet" type="text/css" href="/assets/clientV2/css/productviewgallery.css" media="all" />
+    <script type="text/javascript" src="/assets/clientV2/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/clientV2/js/cloud-zoom.1.0.3.min.js"></script>
+    <script type="text/javascript" src="/assets/clientV2/js/jquery.fancybox.pack.js"></script>
+    <script type="text/javascript" src="/assets/clientV2/js/jquery.fancybox-buttons.js"></script>
+    <script type="text/javascript" src="/assets/clientV2/js/jquery.fancybox-thumbs.js"></script>
+    <script type="text/javascript" src="/assets/clientV2/js/productviewgallery.js"></script>
+    <!-- start top_js_button -->
+    <script type="text/javascript" src="/assets/clientV2/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/clientV2/js/move-top.js"></script>
+    <script type="text/javascript" src="/assets/clientV2/js/easing.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                event.preventDefault();
+                $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 1200);
+            });
+        });
+    </script>
+}
+<div class="main_bg">
+    <div class="wrap">
+        <div class="main">
+            <!-- start content -->
+            <div class="single">
+                <div class="content_top">
+                    <div class="back-links">
+                        <p><a href="/">Trang chủ</a> >>>> <a href="/san-pham/@category.MetaTitle-@category.ID">@category.Name</a></p>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <!-- start span1_of_1 -->
+                <div class="left_content">
+                    <div class="span1_of_1">
+                        <!-- start product_slider -->
+                        <div class="product-view">
+                            <div class="product-essential">
+                                <div class="product-img-box">
+                                    <div class="more-views" style="float: left; position: relative;">
+                                        <div class="more-views-container" style="width:70px;height:484px;overflow:hidden;position:relative;">
+                                            <ul style="height: 610px; margin-top: 0px; margin-left: 0px; width: 70px;">
+                                                @foreach (var item in lstImage)
+                                                {
+                                                    var i = 0;
+                                                    jsonImage.Add(" 'item_"+i+"':{ 'orig':'"+item+ "','main':'" + item + "','thumb':'" + item + "','label':''}");
+                                                    <li style="display: list-item;">
+                                                        <a class="" data-fancybox-group="thumb" style="width:64px;height:85px;" href="@item" title="" alt="" id="more_view_item_1">
+                                                            <img src="@item" src_main="@item" width="64" height="85" title="" alt="">
+                                                        </a>
+                                                    </li>
+                                                    i++;
+                                                }
+                                              
+                                            </ul>
+                                            <input hidden id="listImage" data-value="@String.Join(",", jsonImage)" />
+                                        </div>
+
+                                    </div>
+                                    <div class="product-image">
+                                        <div id="wrap" style="top: 0px; z-index: 100; position: relative; display: block;">
+                                            <a class="cs-fancybox-thumbs cloud-zoom" rel="adjustX:30,adjustY:0,position:'right',tint:'#202020',tintOpacity:0.5,smoothMove:2,showTitle:true,titleOpacity:0.5" data-fancybox-group="thumb" href="@Model.Image" title="" alt="" style="position: relative; display: block;">
+                                                <img id="imageM" data-img="@Model.Image" width="380" height="400" src="@Model.Image" alt="" title="" style="display: block;">
+                                            </a>
+                                            <div class="mousetrap" style="background-image: url(&quot;file:///E:/Downloads/aditii-web/web/js/blank.png&quot;); width: 380px; height: 450px; top: 0px; left: 0px; position: absolute; z-index: 9999; cursor: move;"></div>
+                                        </div>
+                                    </div>
+                                    <script type="text/javascript">
+                                        var imageM = $("#imageM").attr("data-img");
+                                        var gallery = $("#listImage").attr("data-value");
+                                        var prodGallery = jQblvg.parseJSON(`{"prod_1":{"main":{"orig":"${imageM}","main":"${imageM}","thumb":"${imageM}","label":""},"gallery":{${gallery},"type":"simple","video":false}}`),
+                                            gallery_elmnt = jQblvg('.product-img-box'),
+                                            galleryObj = new Object(),
+                                            gallery_conf = new Object();
+                                        gallery_conf.moreviewitem = '<a class="cs-fancybox-thumbs" data-fancybox-group="thumb" style="width:64px;height:85px;" href=""  title="" alt=""><img src="" src_main="" width="64" height="85" title="" alt="" /></a>';
+                                        gallery_conf.animspeed = 200;
+                                        jQblvg(document).ready(function () {
+                                            galleryObj[1] = new prodViewGalleryForm(prodGallery, 'prod_1', gallery_elmnt, gallery_conf, '.product-image', '.more-views', 'http:');
+                                            jQblvg('.product-image .cs-fancybox-thumbs').absoluteClick();
+                                            jQblvg('.cs-fancybox-thumbs').fancybox({
+                                                prevEffect: 'none',
+                                                nextEffect: 'none',
+                                                closeBtn: true,
+                                                arrows: true,
+                                                nextClick: true,
+                                                helpers: {
+                                                    thumbs: {
+                                                        width: 64,
+                                                        height: 85,
+                                                        position: 'bottom'
+                                                    }
+                                                }
+                                            });
+                                            jQblvg('#wrap').css('z-index', '100');
+                                            jQblvg('.more-views-container').elScroll({ type: 'vertical', elqty: 4, btn_pos: 'border', scroll_speed: 400 });
+
+                                        });
+                                        function initGallery(a, b, element) {
+                                            galleryObj[a] = new prodViewGalleryForm(prods, b, gallery_elmnt, gallery_conf, '.product-image', '.more-views', '');
+                                        };
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end product_slider -->
+                    </div>
+                    <!-- start span1_of_1 -->
+                    <div class="span1_of_1_des">
+                        <div class="desc1">
+                            <h3>@Model.Name </h3>
+                            <p> @Model.Description</p>
+                            <h5>$@Model.Price</h5>
+                            <div class="available">
+                                <div class="btn_form">
+                                    <button type="button" href="javascript:void(0)" class="btnAddToCartAjax btn-add" data-id="@Model.ID" data-quantity="1">Add To Cart</button>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="share-desc">
+                                <div class="share">
+                                    <h4>Share Product :</h4>
+                                    <ul class="share_nav">
+                                        <li><a href="#"><img src="/assets/clientV2/images/facebook.png" title="facebook"></a></li>
+                                        <li><a href="#"><img src="/assets/clientV2/images/twitter.png" title="Twiiter"></a></li>
+                                        <li><a href="#"><img src="/assets/clientV2/images/rss.png" title="Rss"></a></li>
+                                        <li><a href="#"><img src="/assets/clientV2/images/gpluse.png" title="Google+"></a></li>
+                                    </ul>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <!-- start tabs -->
+                    <section class="tabs">
+                        <input id="tab-1" type="radio" name="radio-set" class="tab-selector-1" checked="checked">
+                        <label for="tab-1" class="tab-label-1">overview</label>
+
+                        <input id="tab-2" type="radio" name="radio-set" class="tab-selector-2">
+                        <label for="tab-2" class="tab-label-2">consumer electronics</label>
+
+                        <input id="tab-3" type="radio" name="radio-set" class="tab-selector-3">
+                        <label for="tab-3" class="tab-label-3">semiconductor</label>
+
+                        <div class="clear-shadow"></div>
+
+                        <div class="content">
+                            <div class="content-1">
+                                @Model.Description
+                                <div class="clear"></div>
+                            </div>
+                            <div class="content-2">
+                                @Model.Description
+                            </div>
+                            <div class="content-3">
+                                @Model.Description
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+
+                    </section>
+                    <!-- end tabs -->
+                </div>
+                <!-- start sidebar -->
+                <div class="left_sidebar">
+                    <div class="sellers">
+                        <h4>Product Category</h4>
+                        <div class="single-nav">
+                            @{
+                                Html.RenderAction("ProductCategory", "Product");
+                            }
+                        </div>
+
+                    </div>
+                </div>
+                <!-- end sidebar -->
+                <div class="clear"></div>
+            </div>
+            <!-- end content -->
+        </div>
+    </div>
+</div>

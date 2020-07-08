@@ -1,0 +1,111 @@
+﻿@model Model.EF.User
+@using Model.EF;
+
+@{
+    ViewBag.Title = "ChangeGroup";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+@{
+    List<string> lstGroupId = (List<string>)TempData["lstGroupId"];
+    List<UserGroup> lstUserGroupFirst = (List<UserGroup>)TempData["lstUserGroupFirst"];
+}
+<h2>ChangeGroup</h2>
+
+
+<div style="margin-top:1.5em;" class="tab-pane" id="notifyRole">
+    <span>
+        Notifications
+        You can add or remove user of group
+    </span>
+    <input hidden id="idUser" value="@Model.ID" />
+    <div id="" style="margin-top: 14px;">
+        <fieldset>
+            <div class="row">
+                <div class="col-md-5">
+                    <select size="4" multiple="multiple" name="lstAllMemberNotify" id="lstAllMemberNotify" class="form-control" style="height:150px;">
+                        @foreach (var item in lstUserGroupFirst)
+                        {
+                            <option value="@item.ID">@item.ID</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2 text-center" style="padding-top: 50px; text-align: center;">
+                    <input type="button" name="btnAddMemNotify" value="Add >>" id="btnAddMemNotify" class="btn btn-primary">
+                    <br>
+                    <br>
+                    <input type="button" name="btnRemoveMemNotify" value="<< Remove" id="btnRemoveMemNotify" class="btn btn-primary">
+                </div>
+                <div class="col-md-5">
+                    <select size="4" multiple="multiple" name="lstNotificationUsersNotify" id="lstNotificationUsersNotify" class="form-control" style="height:150px;">
+                        @foreach (var item in lstGroupId)
+                        {
+                            <option value="@item">@item</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <div id="" style="padding:15px 15px 15px 0px;">
+
+    </div>
+</div>
+<script src="/assets/admin/bower_components/jquery/dist/jquery.min.js"></script>
+<script>
+    $('#btnAddMemNotify').off('click').on('click', function () {
+        //alert('keke');
+        if ($("#lstAllMemberNotify").val() == null) {
+            alert('select value');
+            return false;
+        }
+        var current = $("#lstNotificationUsersNotify>option").map(function () {
+            return $(this).val();
+        });
+        //console.log(current);
+        var groupId = current.get().join() +','+ $("#lstAllMemberNotify").val().join();
+        //console.log(groupId);
+
+        $.ajax({
+            type: 'POST',
+            url: '/Admin/User/AddGroup',
+            data: {
+                userId: $("#idUser").val(),
+                groupId: groupId
+            },
+            success: function (data) {
+                console.log(data);
+                $("#lstAllMemberNotify option:selected").remove();
+                for (let key in data.lst) {
+                    console.log(key);
+                    $("#lstNotificationUsersNotify").append('<option value=' + key + '>' + data.lst[key] + '</option>');
+                }                                            
+                //$("#lstAllMemberNotify").val('');
+            }
+        });
+    });
+
+    $("#btnRemoveMemNotify").off('click').on('click', function () {
+        if ($("#lstNotificationUsersNotify").val() == null) {
+            alert('select value');
+            return false;
+        }
+        var groupId = $("#lstNotificationUsersNotify").val().join();
+        $.ajax({
+            type: 'POST',
+            url: '/admin/user/RemoveGroup',
+            data: {
+                userId: $("#idUser").val(),
+                groupId: groupId
+            },
+            success: function (req) {
+                console.log(req.lst);
+                $("#lstNotificationUsersNotify option:selected").remove();
+                for (let key in req.lst) {
+                    console.log(key);
+                    $("#lstAllMemberNotify").append('<option value=' + key + '>' + req.lst[key] + '</option>');
+                }   
+            }
+        });
+    });
+</script>
+
