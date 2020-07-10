@@ -46,5 +46,9 @@ namespace Model.Dao
                 throw;
             }           
         }
+        public Slide ViewDetail(int id)
+        {
+            return db.Slides.Find(id);
+        }
     }
 }

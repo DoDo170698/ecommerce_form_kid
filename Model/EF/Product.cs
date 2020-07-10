@@ -12,9 +12,11 @@ namespace Model.EF
         public long ID { get; set; }
 
         [StringLength(250)]
+        [Required]
         public string Name { get; set; }
 
         [StringLength(10)]
+        [Required]
         public string Code { get; set; }
 
         [StringLength(250)]
@@ -24,22 +26,26 @@ namespace Model.EF
         public string Description { get; set; }
 
         [StringLength(250)]
+        
         public string Image { get; set; }
 
         [Column(TypeName = "xml")]
         public string MoreImages { get; set; }
 
+        [Required]
         public decimal? Price { get; set; }
 
         public decimal? PromotionPrice { get; set; }
 
         public bool? IncludedVAT { get; set; }
 
+        [Required]
         public int Quantity { get; set; }
 
         public long? CategoryID { get; set; }
 
         [Column(TypeName = "ntext")]
+        [Required]
         public string Detail { get; set; }
 
         public int? Warranty { get; set; }

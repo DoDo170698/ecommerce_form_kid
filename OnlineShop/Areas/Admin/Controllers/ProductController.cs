@@ -1,6 +1,7 @@
 ﻿using CKFinder.Settings;
 using Model.Dao;
 using Model.EF;
+using OnlineShop.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,26 +27,122 @@ namespace OnlineShop.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            return View();
+            return View(new Product());
         }
         [HttpPost]
-        public ActionResult Create(Product product)
+        public ActionResult Create(Product product, HttpPostedFileBase file)
         {
+            string path = Server.MapPath("~/assets/client/images/");
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            var defName = DateTime.Now.ToString("MM_dd_yyyy_HH_mm_ss");
+            if (file != null)
+            {
+                var extension = Path.GetExtension(file.FileName);
+                string fileName = defName + "_" + Path.GetFileNameWithoutExtension(file.FileName) + extension;
+                file.SaveAs(Path.Combine(path, fileName));
+            }
             if (ModelState.IsValid)
             {
-                var dao = new ProductDao();             
+                var dao = new ProductDao();
+                var user = (UserLogin)Session[CommonConstants.USER_SESSION];
+                product.CreatedBy = user.Name;
+                product.CreatedDate = DateTime.Now;
+                if (product.Status == null)
+                    product.Status = false;
+                if (file != null)
+                {
+                    var extension = Path.GetExtension(file.FileName);
+                    product.Image = "/assets/client/images/" + defName + "_" + Path.GetFileNameWithoutExtension(file.FileName) + extension;
+                }
                 long id = dao.Insert(product);
                 if (id > 0)
                 {
                     SetAlert("Thêm product thành công", "success");
-                    return RedirectToAction("Index", "User");
+                    return RedirectToAction("Index", "Product");
                 }
                 else
                 {
                     ModelState.AddModelError("", "Thêm product không thành công");
                 }
             }
-            return View("Index");
+            return View(product);
+        }
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            var data = new ProductDao().ViewDetail((long)id);
+            return View(data);
+        }
+        [HttpPost]
+        public ActionResult Edit(Product product, HttpPostedFileBase file)
+        {
+            var oldProduct = new ProductDao().ViewDetail((long)product.ID);
+            string path = Server.MapPath("~/assets/client/images/");
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            var defName = DateTime.Now.ToString("MM_dd_yyyy_HH_mm_ss");
+            if (file != null)
+            {
+                var extension = Path.GetExtension(file.FileName);
+                string fileName = defName + "_" + Path.GetFileNameWithoutExtension(file.FileName) + extension;
+                file.SaveAs(Path.Combine(path, fileName));
+            }
+            if (ModelState.IsValid)
+            {
+                var user = (UserLogin)Session[CommonConstants.USER_SESSION];
+                product.CreatedBy = user.Name;
+                product.CreatedDate = DateTime.Now;
+                if (product.Status == null)
+                    product.Status = false;
+                
+                if (file != null)
+                {
+                    var extension = Path.GetExtension(file.FileName);
+                    product.Image = "/assets/client/images/" + defName + "_" + Path.GetFileNameWithoutExtension(file.FileName) + extension;
+                }
+                else
+                {
+                    product.Image = oldProduct.Image;
+                }
+                new ProductDao().Update(product);
+                return RedirectToAction("Index");
+            }
+            return View(product);
+        }
+        public JsonResult Delete(int id)
+        {
+            if(id <= 0)
+            {
+                return Json(new { status = false, mess = "không được xóa" });
+            }
+            var data = new ProductDao().ViewDetail((long)id);
+            if (data.Status.Value)
+            {
+                return Json(new { status = false, mess = "không được xóa" });
+            }
+            var result = new ProductDao().Delete(id);
+            if (result)
+            {
+                return Json(new { status = true, mess = "xóa thành công" });
+            }
+            else
+            {
+                return Json(new { status = false, mess = "không xóa được" });
+            }
+        }
+        public JsonResult ChangeStatus(int id)
+        {
+            if (id <= 0)
+            {
+                return Json(new { status = false, mess = "không được xóa" });
+            }
+            var result = new ProductDao().ChangeStatus(id);
+            return Json(new { status = result, mess = "thay đổi thành công" });
         }
         // set select list
         public SelectList SetViewBag(long ? selectedId = null)
