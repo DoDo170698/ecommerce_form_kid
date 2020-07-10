@@ -11,7 +11,7 @@
 @using (Html.BeginForm("Create", "Slide", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
     <div class="form-group">
         <label for="Description">Description</label>
         <input type="text" class="form-control" name="Description" placeholder="Description" value="@Model.Description">

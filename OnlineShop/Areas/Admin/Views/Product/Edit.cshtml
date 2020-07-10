@@ -1,25 +1,24 @@
 ﻿@model Model.EF.Product
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Edit";
     Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
 }
 @{
     var controller = ViewContext.Controller as OnlineShop.Areas.Admin.Controllers.ProductController;
-    var myFunc = controller.SetViewBag();
+    var myFunc = controller.SetViewBag(Model.CategoryID);
 }
 @section jsFooter{
-    <script src="~/assets/admin/js/controller/productController.js"></script>
+    <script src="/assets/admin/js/controller/productController.js"></script>
 }
-<h2>Create Product</h2>
-@using (Html.BeginForm("Create", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+<h2>Edit Product</h2>
+@using (Html.BeginForm("Edit", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(false, "", new { @class = "text-danger" })
     <div class="form-horizontal">
         <h4>Product</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
+       
         <div class="form-group">
             <label for="Name">Name</label>
             <input type="text" class="form-control" name="Name" placeholder="Name" value="@Model.Name">
@@ -86,7 +85,7 @@
                 </div>
             </div>
         </div>
-
+        <input hidden name="ID" value="@Model.ID" />
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />

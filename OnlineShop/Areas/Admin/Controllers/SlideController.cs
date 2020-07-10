@@ -79,6 +79,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Edit(Slide entity, HttpPostedFileBase file)
         {
+            var oldSlide = new SlideDao().ViewDetail(entity.ID);
             string pathOldImage = Server.MapPath("~") + entity.Image;
             if (System.IO.File.Exists(pathOldImage))
             {
@@ -107,6 +108,10 @@ namespace OnlineShop.Areas.Admin.Controllers
                 {
                     var extension = Path.GetExtension(file.FileName);
                     entity.Image = "/assets/client/images/" + defName + "_" + Path.GetFileNameWithoutExtension(file.FileName) + extension;
+                }
+                else
+                {
+                    entity.Image = oldSlide.Image;
                 }
                 db.Entry(entity).State = EntityState.Modified;
                 db.SaveChanges();

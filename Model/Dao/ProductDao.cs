@@ -3,6 +3,7 @@ using Model.ViewModel;
 using PagedList;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,6 +31,26 @@ namespace Model.Dao
                 throw;
             }
 
+        }
+        public void Update(Product product)
+        {
+            db.Entry(product).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+        public bool Delete(int id)
+        {
+            var entity = db.Products.Find(id);
+            db.Products.Remove(entity);
+            db.SaveChanges();
+            return true;
+        }
+        public bool ChangeStatus(int id)
+        {
+            var data = db.Products.Find(id);
+            data.Status = !data.Status;
+            db.Entry(data).State = EntityState.Modified;
+            db.SaveChanges();
+            return data.Status.Value;
         }
         public List<Product> ListNewProduct(int top)
         {

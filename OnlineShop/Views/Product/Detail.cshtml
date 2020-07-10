@@ -30,6 +30,7 @@
                 background: #3CC395;
             }
     </style>
+    <link href="~/assets/admin/js/plugins/toastr/toastr.min.css" rel="stylesheet" />
     <!-- start details -->
     <link rel="stylesheet" type="text/css" href="/assets/clientV2/css/productviewgallery.css" media="all" />
     <script type="text/javascript" src="/assets/clientV2/js/jquery.min.js"></script>
@@ -38,10 +39,12 @@
     <script type="text/javascript" src="/assets/clientV2/js/jquery.fancybox-buttons.js"></script>
     <script type="text/javascript" src="/assets/clientV2/js/jquery.fancybox-thumbs.js"></script>
     <script type="text/javascript" src="/assets/clientV2/js/productviewgallery.js"></script>
+    <script src="~/assets/admin/js/plugins/toastr/toastr.min.js"></script>
     <!-- start top_js_button -->
     <script type="text/javascript" src="/assets/clientV2/js/jquery.min.js"></script>
     <script type="text/javascript" src="/assets/clientV2/js/move-top.js"></script>
     <script type="text/javascript" src="/assets/clientV2/js/easing.js"></script>
+
     <script type="text/javascript">
         jQuery(document).ready(function ($) {
             $(".scroll").click(function (event) {
@@ -50,6 +53,7 @@
             });
         });
     </script>
+
 }
 <div class="main_bg">
     <div class="wrap">
@@ -75,7 +79,7 @@
                                                 @foreach (var item in lstImage)
                                                 {
                                                     var i = 0;
-                                                    jsonImage.Add(" 'item_"+i+"':{ 'orig':'"+item+ "','main':'" + item + "','thumb':'" + item + "','label':''}");
+                                                    jsonImage.Add(" 'item_" + i + "':{ 'orig':'" + item + "','main':'" + item + "','thumb':'" + item + "','label':''}");
                                                     <li style="display: list-item;">
                                                         <a class="" data-fancybox-group="thumb" style="width:64px;height:85px;" href="@item" title="" alt="" id="more_view_item_1">
                                                             <img src="@item" src_main="@item" width="64" height="85" title="" alt="">
@@ -83,7 +87,7 @@
                                                     </li>
                                                     i++;
                                                 }
-                                              
+
                                             </ul>
                                             <input hidden id="listImage" data-value="@String.Join(",", jsonImage)" />
                                         </div>
@@ -212,3 +216,31 @@
         </div>
     </div>
 </div>
+<script>
+    $(".btnAddToCartAjax").off("click").on("click", function (e) {
+        //alert("keke");
+        e.preventDefault();
+        var productId = $(this).attr("data-id");
+        var quantity = $(this).attr("data-quantity");
+        console.log(productId, quantity);
+        $.ajax({
+            type: "POST",
+            url: "/cart/AddItemAjax/",
+            data: {
+                productId: productId,
+                quantity: quantity
+            },
+            success: function (req) {
+                if (req.status) {
+                    toastr.success('thêm vào giỏ hàng', 'thông báo');
+                    var count = 0;
+                    console.log(req.lst);
+                    req.lst.forEach(element => {
+                        count += element.Quantity * element.Product.Price;
+                    });
+                    $("#count_cart").html("$" + count);
+                }
+            }
+        });
+    })
+</script>

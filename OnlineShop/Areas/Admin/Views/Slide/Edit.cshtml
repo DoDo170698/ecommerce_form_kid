@@ -11,7 +11,7 @@
 @using (Html.BeginForm("Edit", "Slide", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
     <div class="form-group">
         <label for="Description">Description</label>
         <input type="text" class="form-control" name="Description" placeholder="Description" value="@Model.Description">
@@ -31,6 +31,7 @@
         <label for="Image">Image</label>
         <input type="file" class="form-control" name="file" id="btn_file">
     </div>
+    <input hidden name="ID" value="@Model.ID" />
     <button type="submit" class="btn btn-primary">Submit</button>
 }
 
