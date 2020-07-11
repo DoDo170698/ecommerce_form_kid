@@ -69,5 +69,11 @@ namespace OnlineShop.Areas.Admin.Controllers
             }           
             return View("Index");
         }
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            Session.RemoveAll();
+            return RedirectToAction("Index");
+        }
     }
 }
