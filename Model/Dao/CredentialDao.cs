@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,11 +37,13 @@ namespace Model.Dao
         }
         public bool RemoveCredential(string userGroup, string roles)
         {
-            db.Credentials.Remove(new Credential
+            var data = new Credential()
             {
                 UserGroupID = userGroup,
                 RoleID = roles
-            });
+            };
+            //db.Credentials.Remove();
+            db.Entry(data).State = EntityState.Deleted;
             db.SaveChanges();
             return true;
         }
