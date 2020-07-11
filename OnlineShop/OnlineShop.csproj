@@ -191,6 +191,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AboutController.cs" />
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\ContentController.cs" />
@@ -232,6 +233,7 @@
     <Content Include="assets\admin\dist\css\timeline.css" />
     <Content Include="assets\admin\dist\js\sb-admin-2.js" />
     <Content Include="assets\admin\js\controller\categoryController.js" />
+    <Content Include="assets\admin\js\controller\contentController.js" />
     <Content Include="assets\admin\js\controller\orderController.js" />
     <Content Include="assets\admin\js\controller\orderShipController.js" />
     <Content Include="assets\admin\js\controller\productCategoryController.js" />
@@ -1486,6 +1488,7 @@
     <Content Include="Areas\Admin\Views\Category\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Category\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Product\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\About\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

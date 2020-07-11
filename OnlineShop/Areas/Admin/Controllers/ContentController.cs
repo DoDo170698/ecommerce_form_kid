@@ -24,43 +24,85 @@ namespace OnlineShop.Areas.Admin.Controllers
         public ActionResult Create()
         {
             SetViewBag();
-            return View();
+            return View(new Content());
         }
-        [HttpGet]
-        public ActionResult Edit(long id)
-        {
-            var dao = new ContentDao();
-            var content = dao.GetByID(id);
-
-            SetViewBag(content.CategoryID);
-
-            return View(content);
-        }
-        [HttpPost]
-        public ActionResult Edit(Content model)
-        {
-            if (ModelState.IsValid)
-            {
-
-            }
-            SetViewBag(model.CategoryID);
-            return View();
-        }
-        [HttpPost]
+        [HttpPost]      
         [ValidateInput(false)]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(Content model)
         {
             if (ModelState.IsValid)
             {
                 var session = (UserLogin)Session[CommonConstants.USER_SESSION];
                 model.CreatedBy = session.UserName;
+                model.CreatedDate = DateTime.Now;               
                 var culture = Session[CommonConstants.CurrentCulture];
                 model.Language = culture.ToString();
                 new ContentDao().Create(model);
                 return RedirectToAction("Index");
             }
             SetViewBag();
-            return View();
+            return View(model);
+        }
+        [HttpGet]
+        public ActionResult Edit(long id)
+        {
+            if(id <= 0)
+            {
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+            }
+            var dao = new ContentDao();
+            var content = dao.GetByID(id);
+            SetViewBag(content.CategoryID);
+            return View(content);
+        }
+        [HttpPost]
+        [ValidateInput(false)]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Content model)
+        {
+            if (ModelState.IsValid)
+            {
+                var session = (UserLogin)Session[CommonConstants.USER_SESSION];
+                model.CreatedBy = session.UserName;
+                model.CreatedDate = DateTime.Now;
+                var culture = Session[CommonConstants.CurrentCulture];
+                model.Language = culture.ToString();
+                new ContentDao().Edit(model);
+                return RedirectToAction("Index");
+            }
+            SetViewBag(model.CategoryID);
+            return View(model);
+        }   
+        public JsonResult ChangeStatus(int id)
+        {
+            if (id <= 0)
+            {
+                return Json(new { status = false, mess = "không thay đổi được" });
+            }
+            var result = new ContentDao().ChangeStatus(id);
+            return Json(new { status = result, mess = "thay đổi thành công" });
+        }
+        public JsonResult Delete(int id)
+        {
+            if (id <= 0)
+            {
+                return Json(new { status = false, mess = "không xóa được" });
+            }
+            var data = new ContentDao().GetByID((long)id);
+            if (data.Status)
+            {
+                return Json(new { status = false, mess = "không xóa được" });
+            }            
+            var result = new ContentDao().Delete(id);
+            if (result)
+            {
+                return Json(new { status = true, mess = "xóa thành công" });
+            }
+            else
+            {
+                return Json(new { status = false, mess = "không xóa được" });
+            }
         }
         // set dropdowlist
         public void SetViewBag(long? selectedId = null)

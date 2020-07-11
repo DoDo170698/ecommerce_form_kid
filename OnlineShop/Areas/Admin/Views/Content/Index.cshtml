@@ -9,7 +9,8 @@
 }
 
 @section jsFooter{
-    
+
+    <script src="~/assets/admin/js/controller/contentController.js"></script>
 }
 <div class="row">
 
@@ -57,16 +58,16 @@
                                     <td>@item.Name</td>
                                     <td>@item.Image</td>
                                     <td>@item.CreatedDate</td>
-                                    <td><a href="#" class="btn-active" data-id="@item.ID">@Html.Raw(item.Status ? "<strong>Kích hoạt</strong>" : "Khoá")</a></td>
+                                    <td><a href="#" class="btn-active-content" data-id="@item.ID">@Html.Raw(item.Status ? "<strong>Kích hoạt</strong>" : "Khoá")</a></td>
                                     <td>
                                         <a href="/Admin/Content/Edit/@item.ID">Sửa</a>
                                         |
                                         @Ajax.ActionLink("Xoá", "Delete", new { @id = item.ID }, new AjaxOptions
                                    {
                                        Confirm = "Bạn có muốn xoá bản ghi này?",
-                                       OnComplete = "$('#row_" + @item.ID + "').remove()",
+                                       OnComplete = "OnComplete",
                                        HttpMethod = "Delete"
-                                   })
+                                   }, new { @data_id = item.ID })
                                     </td>
                                 </tr>
                             }
@@ -82,3 +83,15 @@
         </div>
     </div>
 </div>
+<script>
+    function OnComplete(rp) {
+        console.log(rp.responseJSON.status);
+        var result = $(this).data('id');
+        if (rp.responseJSON.status) {
+            toastr.success(rp.responseJSON.mess, "Thông báo");
+            $('#row_' + result + '').remove();
+        } else {
+            toastr.success(rp.responseJSON.mess, "Thông báo");
+        }
+    }
+</script>

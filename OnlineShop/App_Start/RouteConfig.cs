@@ -23,8 +23,8 @@ namespace OnlineShop
                namespaces: new[] { "OnlineShop.Controllers" }
            );
             routes.MapRoute(
-              name: "Product Category All",
-              url: "san-pham-all",
+              name: "Product All",
+              url: "san-pham",
               defaults: new { controller = "Product", action = "Index", id = UrlParameter.Optional },
               namespaces: new[] { "OnlineShop.Controllers" }
           );

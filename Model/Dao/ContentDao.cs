@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Common;
 using PagedList;
 using System.Web;
+using System.Data.Entity;
 
 namespace Model.Dao
 {
@@ -145,6 +146,21 @@ namespace Model.Dao
             }
 
             return content.ID;
+        }
+        public bool ChangeStatus(int id)
+        {
+            var data = db.Contents.Find(id);
+            data.Status = !data.Status;
+            db.Entry(data).State = EntityState.Modified;
+            db.SaveChanges();
+            return data.Status;
+        }
+        public bool Delete(int id)
+        {
+            var data = db.Contents.Find(id);
+            db.Contents.Remove(data);
+            db.SaveChanges();
+            return true;
         }
         public void RemoveAllContentTag(long contentId)
         {

@@ -22,114 +22,95 @@
         var editor = CKEDITOR.replace('txtContent', {
             customConfig: '/assets/admin/js/plugins/ckeditor/config.js',
         });
+        var Content = CKEDITOR.instances['txtContent'].getData();
+        $(".Detail").val(Content);
     </script>
 }
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "Content", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Content</h4>
-        <hr />
-        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        <label for="Name">Name</label>
+        <input type="text" class="form-control" name="Name" placeholder="Name" value="@Model.Name">
+    </div>
+
+    <div class="form-group">
+        <label for="MetaTitle">MetaTitle</label>
+        <input type="text" class="form-control" name="MetaTitle" placeholder="MetaTitle" value="@Model.MetaTitle">
+    </div>
+
+    <div class="form-group">
+        <label for="Description">Description</label>
+        <input type="text" class="form-control" name="Description" placeholder="Description" value="@Model.Description">
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label" })
+        <div class="">
+            @Html.TextBoxFor(model => model.Image, new { htmlAttributes = new { @class = "form-control", @id = "txtImage" }, id = "txtImage" })
+            <a id="btnSelectImage" href="#">Chọn ảnh</a>
+            @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.MetaTitle, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.MetaTitle, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.MetaTitle, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.CategoryID, htmlAttributes: new { @class = "control-label" })
+        <div class="">
+            @Html.DropDownListFor(model => model.CategoryID, null, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Detail, htmlAttributes: new { @class = "control-label" })
+        <div class="">
+            @Html.TextAreaFor(model => model.Detail, new { @id = "txtContent" })
+            @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Image, new { htmlAttributes = new { @class = "form-control", @id = "txtImage" }, id = "txtImage" })
-                <a id="btnSelectImage" href="#">Chọn ảnh</a>
-                @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CategoryID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.CategoryID, null, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Detail, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Detail, new { htmlAttributes = new { @class = "form-control" }, id = "txtContent" })
-                @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Warranty, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Warranty, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Warranty, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    <div class="form-group">
+        <label for="Warranty">Warranty</label>
+        <input type="text" class="form-control" name="Warranty" placeholder="Warranty" value="@Model.Warranty">
+    </div>
 
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.MetaKeywords, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.MetaKeywords, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.MetaKeywords, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    <div class="form-group">
+        <label for="MetaKeywords">MetaKeywords</label>
+        <input type="text" class="form-control" name="MetaKeywords" placeholder="MetaKeywords" value="@Model.MetaKeywords">
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.MetaDescriptions, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.MetaDescriptions, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.MetaDescriptions, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    <div class="form-group">
+        <label for="MetaDescriptions">MetaDescriptions</label>
+        <input type="text" class="form-control" name="MetaDescriptions" placeholder="MetaDescriptions" value="@Model.MetaDescriptions">
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.CheckBoxFor(model => model.Status)
-                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Tags, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Tags, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Tags, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Tạo mới" class="btn btn-default" />
+    <div class="form-group">
+        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
+        <div class="">
+            <div class="checkbox">
+                @Html.CheckBoxFor(model => model.Status)
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
+
+
+
+    <div class="form-group">
+        <label for="Tags">Tags</label>
+        <input type="text" class="form-control" name="Tags" placeholder="Tags" value="@Model.Tags">
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Tạo mới" class="btn btn-default" />
+        </div>
+    </div>
+</div>
 }

@@ -12,9 +12,11 @@ namespace Model.EF
         public long ID { get; set; }
 
         [StringLength(250)]
+        [Required]
         public string Name { get; set; }
 
         [StringLength(250)]
+        [Required]
         public string MetaTitle { get; set; }
 
         [StringLength(500)]
@@ -29,7 +31,7 @@ namespace Model.EF
         public string Detail { get; set; }
 
         public int? Warranty { get; set; }
-
+    
         public DateTime? CreatedDate { get; set; }
 
         [StringLength(50)]
@@ -46,6 +48,7 @@ namespace Model.EF
         [StringLength(250)]
         public string MetaDescriptions { get; set; }
 
+        [Required]
         public bool Status { get; set; }
 
         public DateTime? TopHot { get; set; }
