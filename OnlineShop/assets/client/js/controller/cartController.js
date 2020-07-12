@@ -80,7 +80,7 @@
                         req.lst.forEach(element => {
                             count += element.Quantity * element.Product.Price;
                         });
-                        $("#count_cart").html("$" + count);
+                        $("#count_cart").html("CART IDR $" + count);
                     }
                 }
             });

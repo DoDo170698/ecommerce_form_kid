@@ -1,5 +1,5 @@
 ﻿@model List<Model.EF.ProductCategory>
-<ul> 
+<ol class="price-top"> 
     @foreach (var item in Model.Where(x => x.ParentID == null))
     {
         var child = Model.Where(x => x.ParentID == item.ID);
@@ -17,4 +17,4 @@
             }
         </li>
     }
-</ul>
+</ol>

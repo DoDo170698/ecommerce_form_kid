@@ -9,21 +9,23 @@
             var address = $('#txtAddress').val();
             var email = $('#txtEmail').val();
             var content = $('#txtContent').val();
-
+            var token = $('input[name="__RequestVerificationToken"]').val();
             $.ajax({
                 url: '/Contact/Send',
                 type: 'POST',
                 dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
                 data: {
                     name: name,
                     mobile: mobile,
                     address: address,
                     email: email,
-                    content: content
+                    content: content,
+                    __RequestVerificationToken: token,
                 },
                 success: function (res) {
                     if (res.status == true) {
-                        window.alert('Gửi thành công');
+                        toastr.success(res.mess, "Thông báo");
                         contact.resetForm();
                     }
                 }

@@ -6,7 +6,7 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
 }
 @section header{
-    Danh sách Category
+    Danh sách loại tin tức
 }
 @section jsFooter{
     <script src="/assets/admin/js/controller/categoryController.js"></script>
@@ -49,7 +49,7 @@
                             {
                                 <tr id="row_@item.ID">
                                     <td>@item.Name</td>
-                                    <td>@item.MetaTitle</td>                                  
+                                    <td>@item.SeoTitle</td>                                  
                                     <td>@item.CreatedDate.Value.ToString("dd/MM/yyyy")</td>
 
                                     <td>

@@ -2,71 +2,51 @@
 @{
     var session = (UserLogin)Session[OnlineShop.Common.CommonConstants.USER_SESSION];
 }
-
-<div class="header_bg">
-    <div class="wrap">
-        <div class="header">
-            <div class="logo">
-                <a href="index.html"><img src="/assets/clientV2/images/logo.png" alt="" /> </a>
-            </div>        
-            @{
-                Html.RenderAction("HeaderCart", "Home");
-            }
-            <div class="h_search">
-                <form method="GET" action="/tim-kiem">
-                    <input type="text" id="txtKeyword" name="keyword" placeholder="Gõ từ khoá" value="@ViewBag.Keyword">
-                    <input type="submit" value="">
-                </form>
-            </div>
-            <div class="clear"></div>
+<div class="header">
+    <div class="container">
+        <!---->
+        <div class="logo">
+            <a href="/Home/Index"><img src="~/assets/clientV3/images/logo.png" alt=""></a>
         </div>
-    </div>
-</div>
-<div class="header_btm">
-    <div class="wrap">
-        <div class="header_sub">
-            @if (session == null)
-            {
-                <div class="h_menu">
-
+        <div class="header-right">
+            <ul class="account">
+                @*<li><a href="account.html">MY ACCOUNT</a> </li> |*@
+                @if (session != null)
+                {
+                    <li><a href="/#"> Hello @session.Name|</a></li>
+                    <li><a href="/User/Logout">LOGOUT |</a></li>
+                }
+                else
+                {
+                    <li><a href="/cart"> CHECKOUT |</a></li>
+                    <li><a href="/dang-nhap">LOGIN |</a></li>
+                    <li><a href="/dang-ky"> REGISTER </a></li>
+                }
+            </ul>
+            <div class="header-bottom">
+                <div class="top-nav">
+                    <span class="menu"> </span>
                     <ul>
                         @foreach (var item in Model)
                         {
                             <li><a href="@item.Link" target="@item.Target">@item.Text</a></li>
                         }
                     </ul>
+                    <!--script-->
+                    <script>
+                        $("span.menu").click(function () {
+                            $(".top-nav ul").slideToggle(500, function () {
+                            });
+                        });
+                    </script>
                 </div>
-                <div class="top-nav">
-                    <nav class="nav">
-                        <a href="#" id="w3-menu-trigger"> </a>
-                        <ul class="nav-list" style="">
-                            @foreach (var item in Model)
-                            {
-                                <li><a href="@item.Link" target="@item.Target">@item.Text</a></li>
-                            }
-                        </ul>
-
-                    </nav>
-                    <div class="search_box">
-                        <form>
-                            <input type="text" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}"><input type="submit" value="">
-                        </form>
-                    </div>
-                    <div class="clear"> </div>
-                    <script src="/assets/clientV2/js/responsive.menu.js"></script>
-                </div>
-                <div class="clear"></div>
-            }
-            else
-            {
-                @*<ul>
-                    <li>Xin chào:@session.UserName</li>
-                    <li>@Html.ActionLink("Thoát", "Logout", "User")</li>
-                </ul>*@
-            }
-
-
+                @{
+                    Html.RenderAction("HeaderCart", "Home");
+                }
+                <div class="clearfix"> </div>
+            </div>
         </div>
+        <div class="clearfix"> </div>
     </div>
 </div>
 <script src="~/assets/client/js/controller/baseController.js"></script>

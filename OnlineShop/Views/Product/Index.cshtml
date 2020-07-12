@@ -1,147 +1,125 @@
 ﻿@model IEnumerable<Model.ViewModel.ProductViewModel>
-@{  
+@{
     ViewBag.Title = "Product All";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section js{
     <link href="/assets/client/css/font-awesome.min.css" rel="stylesheet" />
     <link href="~/assets/client/css/paging.css" rel="stylesheet" />
-    <script type="text/javascript" src="/assets/clientV2/js/jquery.easing.min.js"></script>
-    <script type="text/javascript" src="/assets/clientV2/js/jquery.mixitup.min.js"></script>
-    <script type="text/javascript">
-        $(function () {
-
-            var filterList = {
-
-                init: function () {
-
-                    // MixItUp plugin
-                    // http://mixitup.io
-                    $('#portfoliolist').mixitup({
-                        targetSelector: '.portfolio',
-                        filterSelector: '.filter',
-                        effects: ['fade'],
-                        easing: 'snap',
-                        // call the hover effect
-                        onMixEnd: filterList.hoverEffect()
-                    });
-
-                },
-
-                hoverEffect: function () {
-
-                    // Simple parallax effect
-                    $('#portfoliolist .portfolio').hover(
-                        function () {
-                            $(this).find('.label').stop().animate({ bottom: 0 }, 200, 'easeOutQuad');
-                            $(this).find('img').stop().animate({ top: -30 }, 500, 'easeOutQuad');
-                        },
-                        function () {
-                            $(this).find('.label').stop().animate({ bottom: -40 }, 200, 'easeInQuad');
-                            $(this).find('img').stop().animate({ top: 0 }, 300, 'easeOutQuad');
-                        }
-                    );
-
-                }
-
-            };
-
-            // Run the show!
-            filterList.init();
-
-
-        });
-    </script>
-    <!-- start top_js_button -->
-    <script type="text/javascript" src="/assets/clientV2/js/move-top.js"></script>
-    <script type="text/javascript" src="/assets/clientV2/js/easing.js"></script>
-    <script type="text/javascript">
-        jQuery(document).ready(function ($) {
-            $(".scroll").click(function (event) {
-                event.preventDefault();
-                $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 1200);
-            });
-        });
-    </script>
+    <link href="~/assets/admin/js/plugins/toastr/toastr.min.css" rel="stylesheet" />
+    <script src="~/assets/admin/js/plugins/toastr/toastr.min.js"></script>
 }
-<div class="main_bg">
-    <div class="wrap">
-        <div class="main">
-            <!-- start gallery_sale  -->
-            <div class="gallery1">
-                <div class="container">
-                    <div id="portfoliolist">
-                        @foreach (var item in Model)
-                        {
-                            var url = "/chi-tiet/" + item.MetaTitle + "-" + item.ID;
-                            <div class="portfolio logo1 mix_all" data-cat="logo" style="display: inline-block;  opacity: 1;">
-                                <div class="portfolio-wrapper">
-                                    <a href="@url">
-                                        <img src="@item.Images" alt="Image 2" style="top: 0px;">
-                                    </a>
-                                    <div class="label" style="bottom: -40px;">
-                                        <div class="label-text">
-                                            <a class="text-title">@item.Name</a>
-                                            <span class="text-category">indulge</span>
-                                        </div>
-                                        <div class="label-bg"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        }
+<div class="content-top top-product">
+    <h5 class="welcome">WELCOME TO MOOROODOOL</h5>
+    <div class="search">
+        <form method="GET" action="/tim-kiem">
+            <input type="text" id="txtKeyword" name="keyword" placeholder="Gõ từ khoá" value="@ViewBag.Keyword">
+            <input type="submit" value="">
+        </form>
+    </div>
+    <div class="clearfix"> </div>
+</div>
+<div class="content-bottom bottom-product">
+    @if (Model.Count() > 0)
+    {
+        foreach (var item in Model)
+        {
+            var url = "/chi-tiet/" + item.MetaTitle + "-" + item.ID;
+            <div class="col-md-4 bottom-content">
+                <a href="@url">
+                    <img class="img-responsive" src="@item.Images" alt="">
+                    <p class="tun">TUNDA BESOK</p>
+                    <p class="number">IDR<span>$@item.Price</span></p>
+                    <div class="pro-grid">
+                        <p>LOOKS VS PERSONALITY</p>
+                        <b>@item.Name</b>
+                        <div class="pro-btns">
+                            <span class="detail">Detail</span>
+                            <a href="javascript:void(0)" class="btnAddToCartAjax buy-in" data-id="@item.ID" data-quantity="1">ADD TO CART</a>
+                        </div>
                     </div>
-                </div><!-- container -->
-                <script type="text/javascript" src="/assets/clientV2/js/fliplightbox.min.js"></script>
-                <script type="text/javascript">$('body').flipLightBox()</script>
-                <div class="clear"> </div>
-                <!--Phân trang-->
-                @if (ViewBag.TotalPage >= 0)
+                </a>
+            </div>
+        }
+    }
+    else
+    {
+
+    }
+    <div class="clearfix"> </div>
+</div>
+<!--Phân trang-->
+@if (ViewBag.TotalPage >= 0)
+{
+    // get data viewbag
+    var pageDisplay = (int)ViewBag.MaxPage;
+    int totalPage = (int)ViewBag.TotalPage;
+    int currentPage = ((int)ViewBag.Page);
+
+    // Create numeric links
+    var startPageIndex = Math.Max(1, currentPage - pageDisplay / 2);
+    var endPageIndex = Math.Min(totalPage, currentPage + pageDisplay / 2);
+
+    var link = "/san-pham";
+    <nav>
+        <ul class="pagination-custom">
+            @if (currentPage > ViewBag.First)
+            {
+                <li class="page-item-custom"><a href="@link?page=@ViewBag.First" title="Trang đầu" class="page-link-custom first"><i class="fa fa-angle-double-left"></i></a></li>
+                <li class="page-item-custom">
+                    <a href="@link?page=@ViewBag.Prev" title="Trang trước" class="page-link-custom prev"><i class="fa fa-angle-left"></i></a>
+                </li>
+            }
+            @for (int i = startPageIndex; i <= endPageIndex; i++)
+            {
+                if (currentPage == i)
                 {
-                    // get data viewbag
-                    var pageDisplay = (int)ViewBag.MaxPage;
-                    int totalPage = (int)ViewBag.TotalPage;
-                    int currentPage = ((int)ViewBag.Page);
-
-                    // Create numeric links
-                    var startPageIndex = Math.Max(1, currentPage - pageDisplay / 2);
-                    var endPageIndex = Math.Min(totalPage, currentPage + pageDisplay / 2);
-
-                    var link = "/san-pham-all";
-                    <nav>
-                        <ul class="pagination-custom">
-                            @if (currentPage > ViewBag.First)
-                            {
-                                <li class="page-item-custom"><a href="@link?page=@ViewBag.First" title="Trang đầu" class="page-link-custom first"><i class="fa fa-angle-double-left"></i></a></li>
-                                <li class="page-item-custom">
-                                    <a href="@link?page=@ViewBag.Prev" title="Trang trước" class="page-link-custom prev"><i class="fa fa-angle-left"></i></a>
-                                </li>
-                            }
-                            @for (int i = startPageIndex; i <= endPageIndex; i++)
-                            {
-                                if (currentPage == i)
-                                {
-                                    <li class="page-item-custom"> <a href="@link?page=@i" class="page-link-custom active" title="Trang @i">@i</a></li>
-                                }
-                                else
-                                {
-                                    <li class="page-item-custom"><a href="@link?page=@i" title="Trang @i" class="page-link-custom pos">@i</a></li>
-                                }
-                            }
-                            @if (currentPage < totalPage)
-                            {
-                                <li class="page-item-custom"><a href="@link?page=@ViewBag.Next" class="page-link-custom next" title="Trang sau"><i class="fa fa-angle-right"></i></a></li>
-                                <li class="page-item-custom"> <a href="@link?page=@ViewBag.Last" class="page-link-custom last" title="Trang cuối"><i class="fa fa-angle-double-right"></i></a></li>
-                            }
-                        </ul>
-                    </nav>
+                    <li class="page-item-custom"> <a href="@link?page=@i" class="page-link-custom active" title="Trang @i">@i</a></li>
                 }
                 else
                 {
-                    <span>Không có bản ghi nào</span>
+                    <li class="page-item-custom"><a href="@link?page=@i" title="Trang @i" class="page-link-custom pos">@i</a></li>
                 }
-            </div>
-            <!---End-gallery----->
-        </div>
-    </div>
-</div>
+            }
+            @if (currentPage < totalPage)
+            {
+                <li class="page-item-custom"><a href="@link?page=@ViewBag.Next" class="page-link-custom next" title="Trang sau"><i class="fa fa-angle-right"></i></a></li>
+                <li class="page-item-custom"> <a href="@link?page=@ViewBag.Last" class="page-link-custom last" title="Trang cuối"><i class="fa fa-angle-double-right"></i></a></li>
+            }
+        </ul>
+    </nav>
+}
+else
+{
+    <span>Không có bản ghi nào</span>
+}
+
+<script>
+    $(".btnAddToCartAjax").off("click").on("click", function (e) {
+        //alert("keke");
+        e.preventDefault();
+        var productId = $(this).attr("data-id");
+        var quantity = $(this).attr("data-quantity");
+        console.log(productId, quantity);
+        $.ajax({
+            type: "POST",
+            url: "/cart/AddItemAjax/",
+            data: {
+                productId: productId,
+                quantity: quantity
+            },
+            success: function (req) {
+                if (req.status) {
+                    toastr.success('thêm vào giỏ hàng', 'thông báo');
+                    var count = 0;
+                    console.log(req.lst);
+                    req.lst.forEach(element => {
+                        count += element.Quantity * element.Product.Price;
+                    });
+                    $("#count_cart").html("CART IDR $" + count);
+                }
+            }
+        });
+    })
+</script>
 
