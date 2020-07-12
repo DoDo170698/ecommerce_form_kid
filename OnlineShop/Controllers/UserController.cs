@@ -35,7 +35,7 @@ namespace OnlineShop.Controllers
         {
             return View();
         }
-
+        [HttpGet]
         public ActionResult Login()
         {
 
@@ -103,6 +103,7 @@ namespace OnlineShop.Controllers
             return Redirect("/");
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model)
         {
             if (ModelState.IsValid)
@@ -115,6 +116,7 @@ namespace OnlineShop.Controllers
                     var userSession = new UserLogin();
                     userSession.UserName = user.UserName;
                     userSession.UserID = user.ID;
+                    userSession.Name = user.Name;
                     Session.Add(CommonConstants.USER_SESSION, userSession);
                     return Redirect("/");
                 }
@@ -139,6 +141,7 @@ namespace OnlineShop.Controllers
         }
         [HttpPost]
         [CaptchaValidation("CaptchaCode", "registerCapcha", "Mã xác nhận không đúng!")]
+        [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterModel model)
         {
             if (ModelState.IsValid)
@@ -156,6 +159,7 @@ namespace OnlineShop.Controllers
                 {
                     var user = new User();
                     user.Name = model.Name;
+                    user.UserName = model.UserName;
                     user.Password = Encryptor.MD5Hash(model.Password);
                     user.Phone = model.Phone;
                     user.Email = model.Email;
@@ -222,7 +226,6 @@ namespace OnlineShop.Controllers
                 district.Name = item.Attribute("value").Value;
                 district.ProvinceID = int.Parse(xElement.Attribute("id").Value);
                 list.Add(district);
-
             }
             return Json(new
             {
@@ -230,6 +233,5 @@ namespace OnlineShop.Controllers
                 status = true
             });
         }
-
     }
 }

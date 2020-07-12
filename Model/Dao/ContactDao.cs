@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PagedList;
 
 namespace Model.Dao
 {
@@ -25,6 +26,17 @@ namespace Model.Dao
             db.Feedbacks.Add(fb);
             db.SaveChanges();
             return fb.ID;
+        }
+        public IEnumerable<Feedback> GetAllPaging(int page, int pageSize)
+        {
+            return db.Feedbacks.OrderByDescending(x => x.Name).ToPagedList(page, pageSize);
+        }
+        public bool Delete(int id)
+        {
+            var data = db.Feedbacks.Find(id);
+            db.Feedbacks.Remove(data);
+            db.SaveChanges();
+            return true;
         }
     }
 }

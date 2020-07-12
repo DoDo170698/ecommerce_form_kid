@@ -18,6 +18,7 @@ namespace OnlineShop.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult Send(string name, string mobile, string address, string email, string content)
         {
             var feedback = new Feedback();
@@ -33,16 +34,18 @@ namespace OnlineShop.Controllers
             {
                 return Json(new
                 {
-                    status = true
+                    status = true,
+                    mess = "gửi thành công"
                 });
                 //send mail
             }
-
             else
+            {
                 return Json(new
                 {
                     status = false
                 });
+            }              
         }
     }
 }

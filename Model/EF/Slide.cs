@@ -19,7 +19,7 @@ namespace Model.EF
         [StringLength(250)]
         public string Link { get; set; }
 
-        [StringLength(50)]
+        [StringLength(500)]
         public string Description { get; set; }
 
         public DateTime? CreatedDate { get; set; }

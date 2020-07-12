@@ -16,6 +16,7 @@ namespace Model.ViewModel
         public string CateName { set; get; }
         public string CateMetaTitle { set; get; }
         public string MetaTitle { set; get; }
+        public bool Status { set; get; }
         public DateTime? CreatedDate { set; get; }
     }
 }

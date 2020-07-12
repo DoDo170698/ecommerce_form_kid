@@ -8,6 +8,7 @@
 @{
     var user = (UserLogin)HttpContext.Current.Session[CommonConstants.USER_SESSION];
     var name = user.Name;
+    var non_des = "non-description";
 }
 @section header{
     Danh sách slide
@@ -60,7 +61,15 @@
                             {
                                 <tr id="row_@item.ID">
                                     <td><img src="@item.Image" style="width: 100px; height: 100px;" /></td>
-                                    <td>@item.Description</td>
+                                    <td>
+                                        @if(!string.IsNullOrEmpty(item.Description)) {
+                                            @item.Description
+                                        }
+                                        else
+                                        {
+                                            @non_des
+                                        }
+                                    </td>
                                     <td>@item.CreatedDate.Value.ToString("dd/MM/yyyy")</td>
                                     <td>
                                        @if (string.IsNullOrEmpty(item.CreatedBy))
@@ -94,7 +103,7 @@
                             }
                         </tbody>
                     </table>
-                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, @searchString = @ViewBag.SearchString }))
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, @search = @ViewBag.SearchString }))
                 </div>
                 <!-- /.table-responsive -->
             </div>

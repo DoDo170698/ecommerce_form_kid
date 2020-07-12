@@ -54,7 +54,7 @@ namespace Model.Dao
         }
         public List<Product> ListNewProduct(int top)
         {
-            return db.Products.OrderByDescending(x => x.CreatedDate).Take(top).ToList();
+            return db.Products.Where(x => x.Status == true).OrderByDescending(x => x.CreatedDate).Take(top).ToList();
         }
         public List<string> ListName(string keyword)
         {
@@ -83,9 +83,10 @@ namespace Model.Dao
                 Images = x.Image,
                 Name = x.Name,
                 MetaTitle = x.MetaTitle,
-                Price = x.Price
+                Price = x.Price,
+                Status = x.Status.Value
             });
-            return model.OrderByDescending(x => x.CreatedDate).Skip((pageSize - 1) * page).Take(pageSize);         
+            return model.Where(x => x.Status == true).OrderByDescending(x => x.CreatedDate).Skip((pageSize - 1) * page).Take(pageSize);         
         }
         /// <summary>
         /// Get list product by category
@@ -161,7 +162,8 @@ namespace Model.Dao
                              Images = a.Image,
                              Name = a.Name,
                              MetaTitle = a.MetaTitle,
-                             Price = a.Price
+                             Price = a.Price,
+                             Status = a.Status
                          }).AsEnumerable().Select(x => new ProductViewModel()
                          {
                              CateMetaTitle = x.MetaTitle,
@@ -171,9 +173,10 @@ namespace Model.Dao
                              Images = x.Images,
                              Name = x.Name,
                              MetaTitle = x.MetaTitle,
-                             Price = x.Price
+                             Price = x.Price,
+                             Status = x.Status.Value
                          });
-            var result = model.OrderByDescending(x => x.CreatedDate).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            var result = model.Where(x => x.Status == true).OrderByDescending(x => x.CreatedDate).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
             //var result = model.ToList();
             return result;
         }

@@ -174,16 +174,16 @@ namespace Model.Dao
         {
             try
             {
-                var result = db.Users.SingleOrDefault(x => x.UserName == userName);
-                var groupId = result.GroupID.Split(',');
+                var result = db.Users.SingleOrDefault(x => x.UserName == userName);               
                 if (result == null)
                 {
                     return 0;
                 }
                 else
                 {
-                    if (isLoginAdmin == true)
+                    if (isLoginAdmin == true && result.GroupID != null)
                     {
+                        var groupId = result.GroupID.Split(',');
                         foreach (var item in groupId)
                         {
                             if (item == CommonConstants.ADMIN_GROUP || item == CommonConstants.MOD_GROUP)

@@ -78,8 +78,6 @@ namespace OnlineShop.Controllers
                 throw;
             }
         }
-        [ChildActionOnly]
-        [OutputCache(Duration = 3600 * 24)]
         public ActionResult Footer()
         {
             try

@@ -97,7 +97,7 @@ namespace OnlineShop.Controllers
                 throw;
             }
         }
-        public ActionResult Search(string keyword, int page = 1, int pageSize = 1)
+        public ActionResult Search(string keyword, int page = 1, int pageSize = 5)
         {
             try
             {
@@ -125,12 +125,16 @@ namespace OnlineShop.Controllers
                 throw;
             }            
         }
-        [OutputCache(CacheProfile = "Cache1DayForProduct")]
+        //[OutputCache(CacheProfile = "Cache1DayForProduct")]
         public ActionResult Detail(long id)
         {
             try
             {
                 //check change git
+                if(id <= 0)
+                {
+                    return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+                }
                 var product = new ProductDao().ViewDetail(id);
                 var images = product.MoreImages;
                 List<string> lstImages = new List<string>();

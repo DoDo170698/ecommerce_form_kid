@@ -122,6 +122,7 @@ namespace OnlineShop.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Payment(string shipName,string mobile,string address,string email)
         {
             var order = new Order();
