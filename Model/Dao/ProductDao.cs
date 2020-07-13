@@ -204,6 +204,9 @@ namespace Model.Dao
         {
             return db.Products.Find(id);
         }
-
+        public int SumProduct()
+        {
+            return db.Products.ToList().Count;
+        }
     }
 }

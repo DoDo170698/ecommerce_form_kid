@@ -129,5 +129,9 @@ namespace Model.Dao
                 throw;
             }
         }
+        public int SumOrder()
+        {
+            return db.Orders.ToList().Count;
+        }
     }
 }

@@ -285,5 +285,9 @@ namespace Model.Dao
             }
 
         }
+        public int SumUser()
+        {
+            return db.Users.ToList().Count;
+        }
     }
 }

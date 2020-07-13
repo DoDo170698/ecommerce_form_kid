@@ -66,7 +66,7 @@
     <Compile Include="Dao\ContactDao.cs" />
     <Compile Include="Dao\ContentDao.cs" />
     <Compile Include="Dao\CredentialDao.cs" />
-    <Compile Include="Dao\Footer.cs" />
+    <Compile Include="Dao\FooterDao.cs" />
     <Compile Include="Dao\MenuDao.cs" />
     <Compile Include="Dao\OrderDao.cs" />
     <Compile Include="Dao\OrderDetailDao.cs" />

@@ -12,9 +12,11 @@ namespace Model.EF
         public int ID { get; set; }
 
         [StringLength(50)]
+        [Required]
         public string Text { get; set; }
 
         [StringLength(250)]
+        [Required]
         public string Link { get; set; }
 
         public int? DisplayOrder { get; set; }

@@ -38,5 +38,9 @@ namespace Model.Dao
             db.SaveChanges();
             return true;
         }
+        public int SumFeedBack()
+        {
+            return db.Feedbacks.ToList().Count;
+        }
     }
 }

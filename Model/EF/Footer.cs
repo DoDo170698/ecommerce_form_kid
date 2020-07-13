@@ -10,9 +10,11 @@ namespace Model.EF
     public partial class Footer
     {
         [StringLength(50)]
+        [Required]
         public string ID { get; set; }
 
         [Column(TypeName = "ntext")]
+        [Required]
         public string Content { get; set; }
 
         public bool? Status { get; set; }
