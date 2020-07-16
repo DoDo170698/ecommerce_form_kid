@@ -21,6 +21,7 @@ namespace OnlineShop.Controllers
                 var productDao = new ProductDao();
                 ViewBag.NewProducts = productDao.ListNewProduct(3);
                 ViewBag.ListFeatureProducts = productDao.ListFeatureProduct(3);
+                ViewBag.FooterHome = new FooterDao().GetFooterHome();
                 return View();
             }
             catch (Exception ex)

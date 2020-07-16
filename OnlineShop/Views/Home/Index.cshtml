@@ -4,6 +4,7 @@
     var slides = (List<Model.EF.Slide>)ViewBag.Slides;
     var listNewProducts = (List<Model.EF.Product>)ViewBag.NewProducts;
     var listFeatureProducts = (List<Model.EF.Product>)ViewBag.ListFeatureProducts;
+    var footerHome = ViewBag.FooterHome as Model.EF.Footer;
 }
 <link href="~/assets/admin/js/plugins/toastr/toastr.min.css" rel="stylesheet" />
 @section jsFooter{
@@ -168,46 +169,7 @@
     <div class="clearfix"> </div>
 </div>
 <!---->
-<div class="grid-top-in">
-    <div class="grid-top">
-        <div class="col-md-4 top-grid ">
-            <h5>ABOUT MOOROODOOL INC.</h5>
-            <p class="sed">Donec sed odio dui. Nulla vitae elit libero, a pharetra augue. Nullam id dolor id nibh ultricies vehicula ut id elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
-        </div>
-        <div class="col-md-4 top-grid">
-            <h5>RETAIL AND WORKSHOP</h5>
-            <div class="house">
-                <i class="in-house"> </i>
-                <div class="add">
-                    <p>Somewherearoundhere Street no 69</p>
-                    <p>Town, City</p>
-                    <p>Country</p>
-                    <p>12345</p>
-                </div>
-                <div class="clearfix"> </div>
-            </div>
-            <div class="house">
-                <i class="in-house in-on"> </i>
-                <div class="add">
-                    <p>+6281312015169</p>
-                </div>
-                <div class="clearfix"> </div>
-            </div>
-        </div>
-        <div class="col-md-4 top-grid">
-            <h5>GET SOCIAL WITH US!</h5>
-            <ul class="social-in">
-                <li><a href="#"><i> </i></a></li>
-                <li><a href="#"><i class="thumblr"> </i></a></li>
-                <li><a href="#"><i class="pin"> </i></a></li>
-
-            </ul>
-            <ul class="social-in">
-                <li><a href="#"><i class="twitter"> </i></a></li>
-                <li><a href="#"><i class="dot"> </i></a></li>
-            </ul>
-            <div class="clearfix"> </div>
-        </div>
-        <div class="clearfix"> </div>
-    </div>
-</div>
+@if(footerHome != null)
+{
+    @Html.Raw(footerHome.Content)
+}

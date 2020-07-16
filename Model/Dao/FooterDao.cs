@@ -55,7 +55,11 @@ namespace Model.Dao
         }
         public Footer GetFooter()
         {
-            return db.Footers.FirstOrDefault(x => x.Status == true);
+            return db.Footers.FirstOrDefault(x => x.Status == true && x.ID != "footer_2");
+        }
+        public Footer GetFooterHome()
+        {
+            return db.Footers.FirstOrDefault(x => x.Status == true && x.ID == "footer_2");
         }
     }
 }

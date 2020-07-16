@@ -3,6 +3,7 @@ using Model.EF;
 using PagedList;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -68,9 +69,29 @@ namespace Model.Dao
             //    about.MetaTitle = StringHelper.ToUnsignString(about.Name);
             //}
             about.CreatedDate = DateTime.Now;
+            db.Entry(about).State = EntityState.Modified;
             db.SaveChanges();
 
             return about.ID;
+        }
+        public bool Delete(int id)
+        {
+            var data = db.Abouts.Find(id);
+            db.Abouts.Remove(data);
+            db.SaveChanges();
+            return true;
+        }
+        public bool ChangeStatus(int id)
+        {
+            var data = db.Abouts.Find(id);
+            data.Status = !data.Status;
+            db.Entry(data).State = EntityState.Modified;
+            db.SaveChanges();
+            return data.Status.Value;
+        }
+        public About GetAbout()
+        {
+            return db.Abouts.FirstOrDefault(x => x.Status == true);
         }
     }
 }
