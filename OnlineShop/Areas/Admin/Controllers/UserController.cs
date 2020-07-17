@@ -116,6 +116,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             });
         }
         // phân nhóm
+        [HasCredential(RoleID = "EDIT_USER")]
         public ActionResult ChangeGroup(int id = 0)
         {
             var daoUser = new UserDao();
@@ -144,6 +145,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             return View(user);
         }
         // add group
+        [HasCredential(RoleID = "EDIT_USER")]
         public JsonResult AddGroup(int userId, string groupId)
         {
             if(userId == 0 || String.IsNullOrEmpty(groupId))
@@ -170,6 +172,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             return Json(new { status = true, lst = lstGroupId });
         }
         // remove group
+        [HasCredential(RoleID = "EDIT_USER")]
         public JsonResult RemoveGroup(int userId, string groupId)
         {
             var daoUser = new UserDao();

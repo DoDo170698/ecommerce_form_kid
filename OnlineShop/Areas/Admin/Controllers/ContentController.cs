@@ -21,6 +21,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             return View(model);
         }
         [HttpGet]
+        [HasCredential(RoleID = "ADD_CONTENT")]
         public ActionResult Create()
         {
             SetViewBag();
@@ -29,6 +30,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         [HttpPost]      
         [ValidateInput(false)]
         [ValidateAntiForgeryToken]
+        [HasCredential(RoleID = "ADD_CONTENT")]
         public ActionResult Create(Content model)
         {
             if (ModelState.IsValid)
@@ -45,6 +47,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             return View(model);
         }
         [HttpGet]
+        [HasCredential(RoleID = "EDIT_CONTENT")]
         public ActionResult Edit(long id)
         {
             if(id <= 0)
@@ -59,6 +62,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         [HttpPost]
         [ValidateInput(false)]
         [ValidateAntiForgeryToken]
+        [HasCredential(RoleID = "EDIT_CONTENT")]
         public ActionResult Edit(Content model)
         {
             if (ModelState.IsValid)
