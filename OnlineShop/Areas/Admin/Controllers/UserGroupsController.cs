@@ -16,6 +16,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         private OnlineShopDbContext db = new OnlineShopDbContext();
 
         // GET: Admin/UserGroups
+        [HasCredential(RoleID = "VIEW_USER_GROUP")]
         public ActionResult Index(int page = 1, int pageSize = 5)
         {
             var model = new UserGroupDao().GetAllPaging(1, 5);
@@ -23,6 +24,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         }
 
         // GET: Admin/UserGroups/Details/5
+        [HasCredential(RoleID = "VIEW_USER_GROUP")]
         public ActionResult Details(string id)
         {
             if (id == null)
@@ -38,6 +40,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         }
 
         // GET: Admin/UserGroups/Create
+        [HasCredential(RoleID = "ADD_USER_GROUP")]
         public ActionResult Create()
         {
             return View();
@@ -48,6 +51,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [HasCredential(RoleID = "ADD_USER_GROUP")]
         public ActionResult Create([Bind(Include = "ID,Name")] UserGroup userGroup)
         {
             if (ModelState.IsValid)
@@ -62,6 +66,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         }
 
         // GET: Admin/UserGroups/Edit/5
+        [HasCredential(RoleID = "EDIT_USER_GROUP")]
         public ActionResult Edit(string id)
         {
             if (id == null)
@@ -81,6 +86,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [HasCredential(RoleID = "EDIT_USER_GROUP")]
         public ActionResult Edit([Bind(Include = "ID,Name")] UserGroup userGroup)
         {
             if (ModelState.IsValid)
@@ -93,6 +99,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         }
 
         // GET: Admin/UserGroups/Delete/5
+        [HasCredential(RoleID = "DELETE_USER_GROUP")]
         public ActionResult Delete(string id)
         {
             if (id == null)

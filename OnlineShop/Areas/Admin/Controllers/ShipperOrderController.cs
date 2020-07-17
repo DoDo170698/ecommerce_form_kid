@@ -13,11 +13,13 @@ namespace OnlineShop.Areas.Admin.Controllers
     public class ShipperOrderController : BaseController
     {
         // GET: Admin/ShipperOrder
+        [HasCredential(RoleID = "VIEW_SHIPPER")]
         public ActionResult Index(int page = 1, int pageSize = 5)
         {
             var data = new ShipperOrderDao().GetAllPaging(page, pageSize);
             return View(data);
         }
+        [HasCredential(RoleID = "ADD_SHIPPER")]
         public JsonResult CreateShipper(int userID, int orderID)
         {
             if(userID <= 0 || orderID <= 0)
@@ -47,6 +49,7 @@ namespace OnlineShop.Areas.Admin.Controllers
                 return Json(new { status = false, mess = "Chưa giao xong đơn hàng khác" });
             }
         }
+        [HasCredential(RoleID = "EDIT_SHIPPER")]
         public JsonResult ChangeStatus(int orderID)
         {
             if(orderID <= 0)
@@ -63,6 +66,7 @@ namespace OnlineShop.Areas.Admin.Controllers
                 return Json(new { status = false });
             }
         }
+        [HasCredential(RoleID = "DELETE_SHIPPER")]
         public JsonResult DeleteShipper(int orderID)
         {
             if(orderID <= 0)

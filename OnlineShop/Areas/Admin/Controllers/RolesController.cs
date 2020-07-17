@@ -16,6 +16,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         private OnlineShopDbContext db = new OnlineShopDbContext();
 
         // GET: Admin/Roles
+        [HasCredential(RoleID = "VIEW_ROLE")]
         public ActionResult Index(int page = 1, int pageSize = 5)
         {
             var model = new RoleDao().GetAllPaging(page, pageSize);
@@ -23,6 +24,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         }
 
         // GET: Admin/Roles/Details/5
+        [HasCredential(RoleID = "VIEW_ROLE")]
         public ActionResult Details(string id)
         {
             if (id == null)
@@ -38,6 +40,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         }
 
         // GET: Admin/Roles/Create
+        [HasCredential(RoleID = "ADD_ROLE")]
         public ActionResult Create()
         {
             return View();
@@ -48,6 +51,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [HasCredential(RoleID = "ADD_ROLE")]
         public ActionResult Create([Bind(Include = "ID,Name")] Role role)
         {
             if (ModelState.IsValid)
@@ -61,6 +65,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         }
 
         // GET: Admin/Roles/Edit/5
+        [HasCredential(RoleID = "EDIT_ROLE")]
         public ActionResult Edit(string id)
         {
             if (id == null)
@@ -80,6 +85,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [HasCredential(RoleID = "EDIT_ROLE")]
         public ActionResult Edit([Bind(Include = "ID,Name")] Role role)
         {
             if (ModelState.IsValid)
@@ -92,6 +98,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         }
 
         // GET: Admin/Roles/Delete/5
+        [HasCredential(RoleID = "DELETE_ROLE")]
         public ActionResult Delete(string id)
         {
             if (id == null)
@@ -109,6 +116,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         // POST: Admin/Roles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [HasCredential(RoleID = "DELETE_ROLE")]
         public ActionResult DeleteConfirmed(string id)
         {
             Role role = db.Roles.Find(id);

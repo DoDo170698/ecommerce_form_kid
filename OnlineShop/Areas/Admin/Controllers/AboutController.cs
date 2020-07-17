@@ -12,6 +12,7 @@ namespace OnlineShop.Areas.Admin.Controllers
     public class AboutController : BaseController
     {
         // GET: Admin/About
+        [HasCredential(RoleID = "VIEW_ABOUT")]
         public ActionResult Index(string searchString, int page = 1, int pageSize = 10)
         {
             var dao = new AboutDao();
@@ -19,10 +20,12 @@ namespace OnlineShop.Areas.Admin.Controllers
             return View(model);
         }
         [HttpGet]
+        [HasCredential(RoleID = "ADD_ABOUT")]
         public ActionResult Create ()
         {
             return View(new About());
         }
+        [HasCredential(RoleID = "EDIT_ABOUT")]
         [HttpGet]
         public ActionResult Edit(long id)
         {
@@ -36,6 +39,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
+        [HasCredential(RoleID = "ADD_ABOUT")]
         public ActionResult Save(About about)
         {
             if (ModelState.IsValid)
@@ -59,6 +63,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             }
             return View(about);
         }
+        [HasCredential(RoleID = "DELETE_ABOUT")]
         public JsonResult Delete(int id)
         {
             if (id <= 0)
@@ -73,6 +78,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             new AboutDao().Delete(id);
             return Json(new { status = true, mess = "Xóa thành công" });
         }
+        [HasCredential(RoleID = "EDIT_ABOUT")]
         public JsonResult ChangeStatus(int id)
         {
             if (id <= 0)

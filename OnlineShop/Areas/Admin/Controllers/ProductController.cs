@@ -16,6 +16,7 @@ namespace OnlineShop.Areas.Admin.Controllers
     public class ProductController : BaseController
     {
         // GET: Admin/Product
+        [HasCredential(RoleID = "VIEW_PRODUCT")]
         public ActionResult Index(string searchString, int page = 1, int pageSize = 5)
         {
             var dao = new ProductDao();
@@ -25,11 +26,13 @@ namespace OnlineShop.Areas.Admin.Controllers
             return View(model);
         }
         [HttpGet]
+        [HasCredential(RoleID = "ADD_PRODUCT")]
         public ActionResult Create()
         {
             return View(new Product());
         }
         [HttpPost]
+        [HasCredential(RoleID = "ADD_PRODUCT")]
         public ActionResult Create(Product product, HttpPostedFileBase file)
         {
             string path = Server.MapPath("~/assets/client/images/");
@@ -71,12 +74,14 @@ namespace OnlineShop.Areas.Admin.Controllers
             return View(product);
         }
         [HttpGet]
+        [HasCredential(RoleID = "EDIT_PRODUCT")]
         public ActionResult Edit(int id)
         {
             var data = new ProductDao().ViewDetail((long)id);
             return View(data);
         }
         [HttpPost]
+        [HasCredential(RoleID = "EDIT_PRODUCT")]
         public ActionResult Edit(Product product, HttpPostedFileBase file)
         {
             var oldProduct = new ProductDao().ViewDetail((long)product.ID);
@@ -114,6 +119,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             }
             return View(product);
         }
+        [HasCredential(RoleID = "DELETE_PRODUCT")]
         public JsonResult Delete(int id)
         {
             if(id <= 0)
@@ -135,6 +141,7 @@ namespace OnlineShop.Areas.Admin.Controllers
                 return Json(new { status = false, mess = "không xóa được" });
             }
         }
+        [HasCredential(RoleID = "EDIT_PRODUCT")]
         public JsonResult ChangeStatus(int id)
         {
             if (id <= 0)

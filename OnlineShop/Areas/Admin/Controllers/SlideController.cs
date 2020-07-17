@@ -21,6 +21,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             db = new OnlineShopDbContext();
         }
         // GET: Admin/Slide
+        [HasCredential(RoleID = "VIEW_SLIDE")]
         public ActionResult Index(string search, int page = 1, int pageSize = 5)
         {
             var model = new SlideDao().ListAllPaging(search , page, pageSize);
@@ -28,12 +29,14 @@ namespace OnlineShop.Areas.Admin.Controllers
             return View(model);
         }
         [HttpGet]
+        [HasCredential(RoleID = "ADD_SLIDE")]
         public ActionResult Create()
         {
             return View(new Slide());
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [HasCredential(RoleID = "ADD_SLIDE")]
         public ActionResult Create(Slide entity, HttpPostedFileBase file)
         {
             string path = Server.MapPath("~/assets/client/images/");
@@ -67,6 +70,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             return View(entity);
         }
         [HttpGet]
+        [HasCredential(RoleID = "EDIT_SLIDE")]
         public ActionResult Edit(int id)
         {
             if(id <= 0)
@@ -77,6 +81,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             return View(model);
         }
         [HttpPost]
+        [HasCredential(RoleID = "EDIT_SLIDE")]
         public ActionResult Edit(Slide entity, HttpPostedFileBase file)
         {
             var oldSlide = new SlideDao().ViewDetail(entity.ID);
@@ -119,6 +124,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             }
             return View(entity);
         }
+        [HasCredential(RoleID = "DELETE_SLIDE")]
         public JsonResult Delete(int id)
         {
             if(id <= 0)
@@ -143,6 +149,7 @@ namespace OnlineShop.Areas.Admin.Controllers
                 return Json(new { status = true, mess = "Xóa thành công" });
             }
         }
+        [HasCredential(RoleID = "EDIT_SLIDE")]
         public JsonResult ChangeStatus(int id)
         {
             if(id <= 0)

@@ -12,6 +12,7 @@ namespace OnlineShop.Areas.Admin.Controllers
     public class ContentController : BaseController
     {
         // GET: Admin/Content
+        [HasCredential(RoleID = "VIEW_CONTENT")]
         public ActionResult Index(string searchString, int page = 1, int pageSize = 10)
         {
             var dao = new ContentDao();
@@ -77,7 +78,8 @@ namespace OnlineShop.Areas.Admin.Controllers
             }
             SetViewBag(model.CategoryID);
             return View(model);
-        }   
+        }
+        [HasCredential(RoleID = "EDIT_CONTENT")]
         public JsonResult ChangeStatus(int id)
         {
             if (id <= 0)
@@ -87,6 +89,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             var result = new ContentDao().ChangeStatus(id);
             return Json(new { status = result, mess = "thay đổi thành công" });
         }
+        [HasCredential(RoleID = "DELETE_CONTENT")]
         public JsonResult Delete(int id)
         {
             if (id <= 0)

@@ -11,11 +11,13 @@ namespace OnlineShop.Areas.Admin.Controllers
     public class ContactController : BaseController
     {
         // GET: Admin/Contact
+        [HasCredential(RoleID = "VIEW_CONTACT")]
         public ActionResult Index(int page = 1, int pageSize = 5)
         {
             var model = new ContactDao().GetAllPaging(page, pageSize);
             return View(model);
         }
+        [HasCredential(RoleID = "DELETE_CONTACT")]
         public JsonResult Delete(int id)
         {
             if(id <= 0)

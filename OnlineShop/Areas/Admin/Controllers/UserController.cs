@@ -122,7 +122,11 @@ namespace OnlineShop.Areas.Admin.Controllers
             var daoUser = new UserDao();
             var daoUserGroup = new UserGroupDao();
             var user = daoUser.ViewDetail(id);
-            var result = user.GroupID.Split(',').ToList();
+            List<string> result = new List<string>();
+            if(user.GroupID != null)
+            {
+                result = user.GroupID.Split(',').ToList();
+            }               
             var lstUserGroupFirst = daoUserGroup.GetUserGroup();
             Dictionary<string, string> lstGroupId = new Dictionary<string, string>();
             foreach (var item in result)

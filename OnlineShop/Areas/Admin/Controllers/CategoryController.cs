@@ -12,6 +12,7 @@ namespace OnlineShop.Areas.Admin.Controllers
     public class CategoryController : BaseController
     {
         // GET: Admin/Category
+        [HasCredential(RoleID = "VIEW_CATEGORY")]
         public ActionResult Index(string search, int page = 1, int pageSize = 5)
         {
             var model = new CategoryDao().ListAllPaging(search, page, pageSize);
@@ -19,11 +20,13 @@ namespace OnlineShop.Areas.Admin.Controllers
             return View(model);
         }
         [HttpGet]
+        [HasCredential(RoleID = "CREATE_CATEGORY")]
         public ActionResult Create()
         {
             return View();
         }
         [HttpPost]
+        [HasCredential(RoleID = "CREATE_CATEGORY")]
         public ActionResult Create(Category model)
         {
             if (ModelState.IsValid)
@@ -43,6 +46,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             return View(model);
         }
         [HttpGet]
+        [HasCredential(RoleID = "EDIT_CATEGORY")]
         public ActionResult Edit(int id)
         {
             if(id <= 0)
@@ -54,6 +58,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [HasCredential(RoleID = "EDIT_CATEGORY")]
         public ActionResult Edit(Category category)
         {
             if (ModelState.IsValid)
@@ -66,6 +71,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             }
             return View(category);
         }
+        [HasCredential(RoleID = "DELETE_CATEGORY")]
         public JsonResult Delete(int id)
         {
             if(id <= 0)
@@ -92,6 +98,7 @@ namespace OnlineShop.Areas.Admin.Controllers
                 return Json(new { status = false, mess = "không xóa được" });
             }
         }
+        [HasCredential(RoleID = "EDIT_CATEGORY")]
         public JsonResult ChangeStatus(int id)
         {
             if (id <= 0)

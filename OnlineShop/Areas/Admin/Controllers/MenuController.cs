@@ -11,18 +11,21 @@ namespace OnlineShop.Areas.Admin.Controllers
     public class MenuController : BaseController
     {
         // GET: Admin/Menu
+        [HasCredential(RoleID = "VIEW_MENU")]
         public ActionResult Index(int page = 1, int pageSize = 5)
         {
             var model = new MenuDao().GetAllPaging(page, pageSize);
             return View(model);
         }
         [HttpGet]
+        [HasCredential(RoleID = "ADD_MENU")]
         public ActionResult Create()
         {
             return View(new Menu());
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [HasCredential(RoleID = "ADD_MENU")]
         public ActionResult Create(Menu menu)
         {
             if (ModelState.IsValid)
@@ -35,6 +38,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             return View(menu);
         }
         [HttpGet]
+        [HasCredential(RoleID = "EDIT_MENU")]
         public ActionResult Edit(int id)
         {
             var data = new MenuDao().ViewDetail(id);
@@ -42,6 +46,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [HasCredential(RoleID = "EDIT_MENU")]
         public ActionResult Edit(Menu menu)
         {
             if (ModelState.IsValid)
@@ -53,6 +58,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             }
             return View(menu);
         }
+        [HasCredential(RoleID = "DELETE_MENU")]
         public JsonResult Delete(int id)
         {
             if (id <= 0)
@@ -67,6 +73,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             new MenuDao().Delete(id);
             return Json(new { status = true, mess = "Xóa thành công" });
         }
+        [HasCredential(RoleID = "EDIT_MENU")]
         public JsonResult ChangeStatus(int id)
         {
             if (id <= 0)

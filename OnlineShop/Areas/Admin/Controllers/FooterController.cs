@@ -11,12 +11,14 @@ namespace OnlineShop.Areas.Admin.Controllers
     public class FooterController : BaseController
     {
         // GET: Admin/Footer
+        [HasCredential(RoleID = "VIEW_FOOTER")]
         public ActionResult Index(int page = 1, int pageSize = 5)
         {
             var model = new FooterDao().GetAllPaging(page, pageSize);
             return View(model);
         }
         [HttpGet]
+        [HasCredential(RoleID = "ADD_FOOTER")]
         public ActionResult Create()
         {
             return View(new Footer());
@@ -24,6 +26,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
+        [HasCredential(RoleID = "ADD_FOOTER")]
         public ActionResult Create(Footer footer)
         {
             if (ModelState.IsValid)
@@ -34,6 +37,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             return View(footer);
         }
         [HttpGet]
+        [HasCredential(RoleID = "EDIT_FOOTER")]
         public ActionResult Edit(string id)
         {
             var data = new FooterDao().ViewByID(id);
@@ -42,6 +46,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
+        [HasCredential(RoleID = "EDIT_FOOTER")]
         public ActionResult Edit(Footer footer)
         {
             if (ModelState.IsValid)
@@ -51,6 +56,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             }
             return View(footer);
         }
+        [HasCredential(RoleID = "EDIT_FOOTER")]
         public JsonResult ChangeStatus(string id)
         {
             if (String.IsNullOrEmpty(id))
@@ -60,6 +66,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             var result = new FooterDao().ChangeStatus(id);
             return Json(new { status = result, mess = "Thay đổi thành công" });
         }
+        [HasCredential(RoleID = "DELETE_FOOTER")]
         public JsonResult Delete(string id)
         {
             if (String.IsNullOrEmpty(id))
