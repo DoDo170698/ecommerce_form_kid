@@ -140,7 +140,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             {
                 foreach (var item in model)
                 {
-                    if (item.RoleID.Equals(role.ID))
+                    if (item.RoleID.Trim().Equals(role.ID.Trim()))
                     {
                         listRoles.Remove(role);
                     }

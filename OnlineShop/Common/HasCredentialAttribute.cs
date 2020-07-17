@@ -28,7 +28,10 @@ namespace OnlineShop
             }
 
             List<string> privilegeLevels = this.GetCredentialByLoggedInUser(session.UserName); // Call another method to get rights of the user from DB
-
+            if (session.GroupID.Contains(CommonConstants.ADMIN_GROUP))
+            {
+                return true;
+            }
             if (privilegeLevels.Contains(this.RoleID) || session.GroupID == CommonConstants.ADMIN_GROUP)
             {
                 return true;

@@ -186,7 +186,7 @@ namespace Model.Dao
                         var groupId = result.GroupID.Split(',');
                         foreach (var item in groupId)
                         {
-                            if (item == CommonConstants.ADMIN_GROUP || item == CommonConstants.MOD_GROUP)
+                            if (item.Trim() == CommonConstants.ADMIN_GROUP || item.Trim() == CommonConstants.MOD_GROUP)
                             {
                                 if (result.Status == false)
                                 {
@@ -199,11 +199,7 @@ namespace Model.Dao
                                     else
                                         return -2;
                                 }
-                            }
-                            else
-                            {
-                                return -3;
-                            }
+                            }                         
                         }
                         return 1;
                     }

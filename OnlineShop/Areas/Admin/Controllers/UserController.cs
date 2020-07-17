@@ -138,7 +138,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             {
                 foreach (var item in lstUserGroupFirst.ToList())
                 {
-                    if (role.Equals(item.ID))
+                    if (role.Trim() == item.ID.Trim())
                     {
                         lstUserGroupFirst.Remove(item);
                     }
@@ -167,7 +167,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             {
                 foreach (var role in oldGroupId)
                 {
-                    if(role != item)
+                    if(role != item && !string.IsNullOrEmpty(item))
                     {
                         lstGroupId.Add(item, item);
                     }
@@ -187,7 +187,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             {
                 foreach (var oldItem in oldGroupId.ToList())
                 {
-                    if (oldItem.Equals(item))
+                    if (oldItem.Trim().Equals(item.Trim()))
                     {
                         oldGroupId.Remove(oldItem);
                     }
